@@ -1,15 +1,15 @@
-const { expensesService } = require('../services/expenses.service');
-const { usersService } = require('../services/users.service');
+const { expenseService } = require('../services/expense.service');
+const { userService } = require('../services/user.service');
 
 const getAll = async (req, res) => {
-  const expenses = await expensesService.getAll(req.query);
+  const expenses = await expenseService.getAll(req.query);
 
   res.set('Content-Type', 'application/json');
   res.status(200).json(expenses);
 };
 
 const getById = async (req, res) => {
-  const expense = await expensesService.getById(parseInt(req.params.id));
+  const expense = await expenseService.getById(parseInt(req.params.id));
 
   if (!expense) {
     return res.sendStatus(404);
@@ -21,19 +21,20 @@ const getById = async (req, res) => {
 
 const add = async (req, res) => {
   const { userId, spentAt, title, amount, category, note } = req.body;
+  const parsedUserId = parseInt(userId);
 
-  if (!userId || !spentAt || !title || amount === null) {
+  if (!parsedUserId || !spentAt || !title || amount == null) {
     return res.sendStatus(400);
   }
 
-  const user = await usersService.getById(parseInt(userId));
+  const user = await userService.getById(parsedUserId);
 
   if (!user) {
     return res.sendStatus(400);
   }
 
-  const expense = await expensesService.add({
-    userId,
+  const expense = await expenseService.add({
+    userId: parsedUserId,
     spentAt,
     title,
     amount,
@@ -48,25 +49,25 @@ const add = async (req, res) => {
 const remove = async (req, res) => {
   const expenseId = parseInt(req.params.id);
 
-  const expense = await expensesService.getById(expenseId);
+  const expense = await expenseService.getById(expenseId);
 
   if (!expense) {
     return res.sendStatus(404);
   }
 
-  await expensesService.remove(expenseId);
+  await expenseService.remove(expenseId);
   res.sendStatus(204);
 };
 
 const update = async (req, res) => {
   const expenseId = parseInt(req.params.id);
-  const expense = await expensesService.getById(expenseId);
+  const expense = await expenseService.getById(expenseId);
 
   if (!expense) {
     return res.sendStatus(404);
   }
 
-  const updatedExpense = await expensesService.update({
+  const updatedExpense = await expenseService.update({
     id: expenseId,
     ...req.body,
   });
@@ -75,7 +76,7 @@ const update = async (req, res) => {
   res.json(updatedExpense);
 };
 
-const expensesController = {
+const expenseController = {
   getAll,
   getById,
   add,
@@ -84,5 +85,5 @@ const expensesController = {
 };
 
 module.exports = {
-  expensesController,
+  expenseController,
 };

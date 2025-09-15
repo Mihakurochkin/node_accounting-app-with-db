@@ -53,7 +53,7 @@ const update = async (newExpense) => {
   return expense;
 };
 
-const expensesService = {
+const expenseService = {
   getAll,
   getById,
   add,
@@ -62,5 +62,5 @@ const expensesService = {
 };
 
 module.exports = {
-  expensesService,
+  expenseService,
 };

@@ -1,14 +1,14 @@
-const { usersService } = require('../services/users.service');
+const { userService } = require('../services/user.service');
 
 const getAll = async (_, res) => {
-  const users = await usersService.getAll();
+  const users = await userService.getAll();
 
   res.set('Content-Type', 'application/json');
   res.status(200).json(users);
 };
 
 const getById = async (req, res) => {
-  const user = await usersService.getById(parseInt(req.params.id));
+  const user = await userService.getById(parseInt(req.params.id));
 
   if (!user) {
     return res.sendStatus(404);
@@ -25,7 +25,7 @@ const add = async (req, res) => {
     return res.sendStatus(400);
   }
 
-  const user = await usersService.add({ name });
+  const user = await userService.add({ name });
 
   res.set('Content-Type', 'application/json');
   res.status(201).json(user);
@@ -34,19 +34,19 @@ const add = async (req, res) => {
 const remove = async (req, res) => {
   const userId = parseInt(req.params.id);
 
-  const user = await usersService.getById(userId);
+  const user = await userService.getById(userId);
 
   if (!user) {
     return res.sendStatus(404);
   }
 
-  await usersService.remove(userId);
+  await userService.remove(userId);
   res.sendStatus(204);
 };
 
 const update = async (req, res) => {
   const userId = parseInt(req.params.id);
-  const user = await usersService.getById(userId);
+  const user = await userService.getById(userId);
 
   if (!user) {
     return res.sendStatus(404);
@@ -58,7 +58,7 @@ const update = async (req, res) => {
     return res.sendStatus(400);
   }
 
-  const updatedUser = await usersService.update({
+  const updatedUser = await userService.update({
     id: userId,
     name,
   });
@@ -67,7 +67,7 @@ const update = async (req, res) => {
   res.json(updatedUser);
 };
 
-const usersController = {
+const userController = {
   getAll,
   getById,
   add,
@@ -76,5 +76,5 @@ const usersController = {
 };
 
 module.exports = {
-  usersController,
+  userController,
 };

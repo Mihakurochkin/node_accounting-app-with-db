@@ -13,7 +13,7 @@ function createServer() {
 
   server.use('/users', userRouter);
   server.use('/expenses', expenseRouter);
-  server.use('/category', categoryRouter);
+  server.use('/categories', categoryRouter);
 
   return server;
 }

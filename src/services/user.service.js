@@ -33,7 +33,7 @@ const update = async ({ id, name }) => {
   return result;
 };
 
-const usersService = {
+const userService = {
   getAll,
   getById,
   add,
@@ -42,5 +42,5 @@ const usersService = {
 };
 
 module.exports = {
-  usersService,
+  userService,
 };

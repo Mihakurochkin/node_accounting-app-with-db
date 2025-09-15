@@ -1,29 +1,11 @@
 const { Op } = require('sequelize');
 const { Category } = require('../models/Category.model');
 
-const getAll = async ({ userId, from, to, categories }) => {
+const getAll = async ({ name } = {}) => {
   const where = {};
 
-  if (userId) {
-    where.userId = userId;
-  }
-
-  if (categories) {
-    const cats = categories.split(',');
-
-    where.category = { [Op.in]: cats };
-  }
-
-  if (from || to) {
-    where.spentAt = {};
-  }
-
-  if (from) {
-    where.spentAt[Op.gte] = new Date(from);
-  }
-
-  if (to) {
-    where.spentAt[Op.lte] = new Date(to);
+  if (name) {
+    where.name = { [Op.iLike]: `%${name}%` };
   }
 
   const result = await Category.findAll({

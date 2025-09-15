@@ -19,7 +19,7 @@ const getById = async (req, res) => {
 };
 
 const add = async (req, res) => {
-  const { name, desctiption } = req.body;
+  const { name, description } = req.body;
 
   if (!name) {
     return res.sendStatus(400);
@@ -27,7 +27,7 @@ const add = async (req, res) => {
 
   const category = await categoryService.add({
     name,
-    desctiption: desctiption ?? '',
+    description: description ?? '',
   });
 
   res.set('Content-Type', 'application/json');
@@ -55,10 +55,7 @@ const update = async (req, res) => {
     return res.sendStatus(404);
   }
 
-  const updatedCategory = await categoryService.update({
-    id: categoryId,
-    ...req.body,
-  });
+  const updatedCategory = await categoryService.update(categoryId, req.body);
 
   res.set('Content-type', 'application/json');
   res.json(updatedCategory);
