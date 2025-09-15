@@ -48,7 +48,7 @@ const update = async (newExpense) => {
     return;
   }
 
-  Object.assign(expense, newExpense);
+  await expense.update(newExpense);
 
   return expense;
 };

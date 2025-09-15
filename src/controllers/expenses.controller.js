@@ -5,7 +5,7 @@ const getAll = async (req, res) => {
   const expenses = await expensesService.getAll(req.query);
 
   res.set('Content-Type', 'application/json');
-  res.json(expenses);
+  res.status(200).json(expenses);
 };
 
 const getById = async (req, res) => {
@@ -22,7 +22,7 @@ const getById = async (req, res) => {
 const add = async (req, res) => {
   const { userId, spentAt, title, amount, category, note } = req.body;
 
-  if (!userId || !spentAt || !title || !amount) {
+  if (!userId || !spentAt || !title || amount === null) {
     return res.sendStatus(400);
   }
 

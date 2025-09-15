@@ -4,7 +4,7 @@ const getAll = async (_, res) => {
   const users = await usersService.getAll();
 
   res.set('Content-Type', 'application/json');
-  res.json(users);
+  res.status(200).json(users);
 };
 
 const getById = async (req, res) => {
